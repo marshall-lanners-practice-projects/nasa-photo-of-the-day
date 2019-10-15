@@ -1,27 +1,57 @@
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import {
+  Container,
+  Row,
+  Card,
+  CardImg,
+  CardText,
+  CardBody,
+  CardTitle,
+  CardSubtitle
+} from 'reactstrap';
 
-import React from "react";
-import { Card, CardText, CardBody, CardTitle, CardSubtitle, Col } from "reactstrap";
-const NasaCard = props => {
+const NasaCard = () => {
+  const [nasaInfo, setnasaInfo] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get(
+        `https://api.nasa.gov/planetary/apod?api_key=gNW3vIQePD9BYex7Oi5tmG3GUC0Tp1UEMFcVeBc4`
+      )
+      .then(response => {
+        console.log('NASA Image Of The Day', response.data);
+        setnasaInfo(response.data);
+      })
+      .catch(error => {
+        console.log('The data was not returned', error);
+      });
+  }, []);
+
   return (
-    console.log(props)
-    <div></div>
+    <Container style={{ maxWidth: '800px' }}>
+      {nasaInfo && (
+        <div>
+          <Card>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                marginTop: '30px'
+              }}
+            >
+              <img width='50%' src={nasaInfo.url} alt='Nasa' />
+            </div>
+            <CardBody>
+              <CardTitle>{nasaInfo.title}</CardTitle>
+              <CardSubtitle>{nasaInfo.date}</CardSubtitle>
+              <CardText>{nasaInfo.explanation}</CardText>
+            </CardBody>
+          </Card>
+        </div>
+      )}
+    </Container>
   );
 };
+
 export default NasaCard;
-
-
-
-
-
-
-/*<Col xs="12" sm="8">
-      <Card>
-      <img top width="100%" src={props.image} alt="Card image cap" />
-        <CardBody>
-          <CardTitle>Image title: {props.title}</CardTitle>
-          <CardText>{props.explanation}</CardText>
-          <CardSubtitle>Copyright: {props.copyright}</CardSubtitle>
-          <CardSubtitle>Date: <small className="text-warning">{props.date}</small></CardSubtitle>
-        </CardBody>
-      </Card>
-    </Col>*/

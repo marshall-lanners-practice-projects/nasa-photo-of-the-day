@@ -1,13 +1,11 @@
-import React from "react";
-import NasaList from "./Components/NasaList";
-import "./App.css";
+import React from 'react';
+import NasaCard from './Components/NasaCard';
+import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <p>
-        <NasaList/>
-      </p>
+    <div className='App'>
+      <NasaCard />
     </div>
   );
 }
